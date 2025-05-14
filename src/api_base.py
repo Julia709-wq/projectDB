@@ -10,6 +10,6 @@ class BaseAPI(ABC):
         pass
 
     @abstractmethod
-    def get_data(self, keyword: str):
+    def get_data(self):
         """Абстрактный метод получения данных от API"""
         pass

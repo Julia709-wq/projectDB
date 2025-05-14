@@ -22,14 +22,13 @@ class HeadHunterAPI(BaseAPI):
 
         return response.json()
 
-    def get_data(self, keyword: str) -> list:
-        """Метод получения данных по поисковому запросу"""
-        params = {"text": keyword,
-                  "per_page": 30}
+    def get_data(self) -> list:
+        """Метод получения данных от API"""
+        params = {"per_page": 100}
 
         data = self._connect_(params)
         return data['items']
 
 
 hh1 = HeadHunterAPI()
-print(hh1.get_data('оператор'))
+print(hh1.get_data())
