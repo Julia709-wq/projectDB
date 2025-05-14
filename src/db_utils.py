@@ -1,5 +1,6 @@
 import psycopg2
 
+
 def fill_employers_tables(data: list, cur):
     """Функция заполнения таблицы с данными о работодателях"""
     top_employers = ['Wildberries', 'VK', 'Great', 'ВкусВилл', 'Яндекс',
@@ -31,6 +32,7 @@ def fill_employers_tables(data: list, cur):
     except (psycopg2.IntegrityError, psycopg2.ProgrammingError) as e:
         print("Ошибка добавления данных в таблицу: ", e)
         cur.connection.rollback()
+
 
 def fill_vacancies_table(data: list, cur):
     """Функция заполнения таблицы с данными о вакансиях"""
@@ -70,7 +72,8 @@ def fill_vacancies_table(data: list, cur):
                 print(row)
 
         except psycopg2.IntegrityError as e:
-            print(f"Ошибка целостности данных при вставке вакансии {vac_id}: ", e)
+            print(f"Ошибка целостности данных при вставке вакансии "
+                  f"{vac_id}: ", e)
             cur.connection.rollback()
         except Exception as e:
             print(f"Ошибка при вставке вакансии {vac_id}: ", e)

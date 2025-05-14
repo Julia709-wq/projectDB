@@ -1,10 +1,12 @@
 import psycopg2
 from psycopg2 import sql
 
+
 class DBManager:
     """Класс для работы с запросами к базе данных"""
 
-    def __init__(self, db_name: str, user: str, password: str, host: str = "localhost"):
+    def __init__(self, db_name: str, user: str, password: str,
+                 host: str = "localhost"):
         self.db_name = db_name
         self.user = user
         self.password = password
@@ -27,11 +29,13 @@ class DBManager:
         sys_cur = sys_conn.cursor()
 
         # проверяем, существует ли нужная база
-        sys_cur.execute("SELECT 1 FROM pg_database WHERE datname = %s;", (self.db_name,))
+        sys_cur.execute("SELECT 1 FROM pg_database WHERE datname = %s;",
+                        (self.db_name,))
         exists = sys_cur.fetchone()
 
         if exists:
-            print(f"База данных '{self.db_name}' уже существует. Подключение...")
+            print(f"База данных '{self.db_name}' уже существует. "
+                  f"Подключение...")
         else:
             print(f"База данных '{self.db_name}' не существует. Создаём...")
             sys_cur.execute(sql.SQL("CREATE DATABASE {}").format(sql.Identifier(self.db_name)))
@@ -62,10 +66,12 @@ class DBManager:
         for row in rows:
             print(row)
 
+        return rows
+
     def get_all_vacancies(self):
         """Получение списка всех вакансий"""
         self.cur.execute("""
-            SELECT e.company_name, v.name, 
+            SELECT e.company_name, v.name,
             v.salary, v.url
             FROM employers e JOIN vacancies v
             ON e.id = v.employer_id;
@@ -75,6 +81,8 @@ class DBManager:
         print("\nСписок вакансий:\n")
         for row in rows:
             print(row)
+
+        return rows
 
     def get_avg_salary(self):
         """Получение средней зарплаты по вакансиям"""
@@ -87,6 +95,8 @@ class DBManager:
         print("\nСредняя зарплата по вакансиям:\n")
         for row in rows:
             print(row)
+
+        return rows
 
     def get_vacancies_with_higher_salary(self):
         """Получение списка вакансий с зарплатами выше средней"""
@@ -101,6 +111,8 @@ class DBManager:
         for row in rows:
             print(row)
 
+        return rows
+
     def get_vacancies_with_keyword(self, keyword: str):
         """Получение списка всех вакансий с ключевым словом"""
         self.cur.execute("""
@@ -113,3 +125,10 @@ class DBManager:
         print(f"\nВакансии с ключевым словом {keyword}:\n")
         for row in rows:
             print(row)
+
+        return rows
+
+    def delete_data(self):
+        """Метод очистки таблиц (для удобства)"""
+        self.cur.execute("DELETE FROM vacancies;")
+        self.cur.execute("DELETE FROM employers;")

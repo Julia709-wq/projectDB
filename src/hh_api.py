@@ -30,5 +30,5 @@ class HeadHunterAPI(BaseAPI):
         return data['items']
 
 
-hh1 = HeadHunterAPI()
-print(hh1.get_data())
+# hh1 = HeadHunterAPI()
+# print(hh1.get_data())
