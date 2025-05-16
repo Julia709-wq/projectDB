@@ -1,4 +1,5 @@
 import pytest
+from unittest.mock import MagicMock
 from src.db_manager import DBManager
 
 
@@ -48,3 +49,11 @@ def sample_db():
 
     db.conn.commit()
     return db
+
+
+@pytest.fixture
+def mock_cursor():
+    cur = MagicMock()
+    cur.fetchall.return_value = [('1', 'Wildberries'), ('2', 'VK')]
+    cur.connection.rollback = MagicMock()
+    return cur

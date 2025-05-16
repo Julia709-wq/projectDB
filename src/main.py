@@ -12,7 +12,7 @@ def main():
     hh_api = HeadHunterAPI()
     vacancies_data = hh_api.get_data()  # список словарей
 
-    load_dotenv('.env') # не работает
+    load_dotenv('.env')  # не работает
     user = 'postgres'
     password = '0'
     new_db = str(input("Введите название базы данных, с которой хотите работать: "))
