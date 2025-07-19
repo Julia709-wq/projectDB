@@ -7,6 +7,7 @@ class DBManager:
 
     def __init__(self, db_name: str, user: str, password: str,
                  host: str = "localhost"):
+        """Инициализация объекта класса"""
         self.db_name = db_name
         self.user = user
         self.password = password
@@ -91,12 +92,15 @@ class DBManager:
             FROM vacancies;
             """)
 
-        rows = self.cur.fetchall()
-        print("\nСредняя зарплата по вакансиям:\n")
-        for row in rows:
-            print(row)
+        avg_salary = self.cur.fetchone()[0]
 
-        return rows
+        if avg_salary is not None:
+            avg_salary = round(float(avg_salary), 2)
+            print(f"\nСредняя зарплата по вакансиям: {avg_salary}")
+        else:
+            print("\nНет данных по зарплате.")
+
+        return avg_salary
 
     def get_vacancies_with_higher_salary(self):
         """Получение списка вакансий с зарплатами выше средней"""

@@ -1,5 +1,27 @@
 import psycopg2
 
+def create_tables(cur):
+    """Функция создания таблиц employers и vacancies"""
+    create_tab1_command = """CREATE TABLE IF NOT EXISTS employers (
+                     id VARCHAR PRIMARY KEY,
+                     company_name VARCHAR
+                     )"""
+    create_tab2_command = """CREATE TABLE IF NOT EXISTS vacancies (
+                     id VARCHAR PRIMARY KEY,
+                     name VARCHAR,
+                     salary INT,
+                     url VARCHAR,
+                     employer_id VARCHAR,
+                     FOREIGN KEY (employer_id) REFERENCES employers(id))"""
+
+    try:
+        cur.execute(create_tab1_command)
+        cur.execute(create_tab2_command)
+        print("Таблицы успешно созданы.")
+
+    except (Exception, psycopg2.OperationalError) as e:
+        print("Ошибка при создании таблиц: ", e)
+
 
 def fill_employers_tables(data: list, cur):
     """Функция заполнения таблицы с данными о работодателях"""
