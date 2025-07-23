@@ -1,7 +1,12 @@
-from src.db_utils import fill_vacancies_table,fill_employers_tables
+from src.db_utils import fill_employers_tables
+from unittest.mock import patch, MagicMock
 
 
-def test_fill_employers_table(mock_cursor):
+@patch('src.db_utils.psycopg2')
+def test_fill_employers_table(_):
+    mock_cursor = MagicMock()
+    mock_cursor.fetchall.return_value = [('1', 'Wildberries'), ('2', 'VK')]
+
     data = [{"employer": {"id": "1", "name": "Wildberries"}},
             {"employer": {"id": "2", "name": "VK"}},
             {"employer": {"id": "3", "name": "SomeCompany"}},
